@@ -8,12 +8,16 @@
 }
 
 :root {
-  --bg: linear-gradient(160deg, #fff8f0 0%, #fdebd3 40%, #f5d5c0 100%);
-  --text-dark: #5c3d2e;
-  --text-mid: #a0806b;
-  --text-light: #8b6f5e;
+  /* Greenhouse: warm diffused light through glass + botanical greens */
+  --bg: linear-gradient(160deg, #f0faf0 0%, #e2f5e2 35%, #d4edcc 70%, #e8f5b8 100%);
+  --bg-card: rgba(240, 252, 240, 0.75);
+  --bg-card-active: #f5fdf0;
+  --text-dark: #2c4a1e;
+  --text-mid: #5a7a4a;
+  --text-light: #7a9e6a;
   --font-serif: "Fraunces", Georgia, serif;
   --font-sans: "DM Sans", system-ui, sans-serif;
+  --progress-empty: rgba(44, 74, 30, 0.12);
 }
 
 body {
@@ -35,12 +39,39 @@ body {
   font-family: var(--font-serif);
   padding: 2rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.splash-heart {
+/* Decorative greenhouse leaf blobs */
+.splash::before,
+.splash::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.18;
+  pointer-events: none;
+}
+.splash::before {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, #5c9e6e 0%, transparent 70%);
+  top: -80px;
+  right: -80px;
+}
+.splash::after {
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, #9b72cf 0%, transparent 70%);
+  bottom: -60px;
+  left: -60px;
+}
+
+.splash-icon {
   font-size: 3.5rem;
   line-height: 1;
   margin-bottom: 0.25rem;
+  filter: drop-shadow(0 4px 12px rgba(92, 158, 110, 0.4));
 }
 
 .splash-title {
@@ -75,26 +106,34 @@ body {
   font-family: var(--font-serif);
   font-size: 1.15rem;
   font-weight: 500;
-  background: #d4776b;
-  color: #fff8f0;
+  background: linear-gradient(135deg, #c2527a 0%, #9b72cf 50%, #5c9e6e 100%);
+  color: #fff;
   border: none;
   border-radius: 60px;
   padding: 0.9rem 2.5rem;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(212, 119, 107, 0.35);
+  box-shadow: 0 4px 20px rgba(155, 114, 207, 0.35);
   transition: transform 0.2s, box-shadow 0.2s;
+  background-size: 200% 200%;
+  animation: shimmer 4s ease infinite;
 }
 
 .splash-btn:hover,
 .splash-btn:focus-visible {
   transform: scale(1.04);
-  box-shadow: 0 6px 28px rgba(212, 119, 107, 0.45);
+  box-shadow: 0 6px 28px rgba(155, 114, 207, 0.5);
   outline: none;
 }
 
 .splash-btn:focus-visible {
-  outline: 3px solid #d4776b;
+  outline: 3px solid #9b72cf;
   outline-offset: 3px;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* ── Main app shell ── */
@@ -163,27 +202,29 @@ body {
 }
 
 .walk-icon {
-  font-size: 0.65rem;
+  font-size: 0.9rem;
 }
 
 /* ── Stop card ── */
 .stop-card {
-  background: rgba(255, 252, 248, 0.7);
+  background: var(--bg-card);
   border-radius: 16px;
   padding: 1rem 1.15rem;
   cursor: pointer;
-  border: 2px solid transparent;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 2px solid rgba(92, 158, 110, 0.15);
+  box-shadow: 0 1px 4px rgba(44, 74, 30, 0.06);
   transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
   user-select: none;
+  /* Subtle greenhouse glass texture */
+  backdrop-filter: blur(2px);
 }
 
 .stop-card--active {
-  background: #fffcf8;
+  background: var(--bg-card-active);
 }
 
 .stop-card:focus-visible {
-  outline: 3px solid #d4776b;
+  outline: 3px solid #9b72cf;
   outline-offset: 2px;
 }
 
@@ -206,7 +247,7 @@ body {
   transition: background 0.4s;
   font-family: var(--font-sans);
   font-weight: 600;
-  color: var(--text-dark);
+  color: #fff;
 }
 
 .stop-meta {
@@ -235,7 +276,7 @@ body {
 
 .stop-toggle {
   font-size: 1.2rem;
-  color: var(--text-mid);
+  color: var(--text-light);
   transition: transform 0.3s;
   flex-shrink: 0;
   line-height: 1;
@@ -245,7 +286,7 @@ body {
 .stop-detail {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(92, 61, 46, 0.1);
+  border-top: 1px solid rgba(92, 158, 110, 0.2);
   animation: fadeIn 0.35s ease;
 }
 
@@ -293,17 +334,19 @@ body {
   line-height: 1.5;
 }
 
-.footer-heart {
+.footer-icon {
   font-size: 1.5rem;
+  filter: drop-shadow(0 2px 6px rgba(92, 158, 110, 0.3));
 }
 
 .footer-tagline {
   font-family: var(--font-serif);
   font-style: italic;
   margin-top: 0.5rem;
+  color: var(--text-mid);
 }
 
-/* ── Animation ── */
+/* ── Animations ── */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -320,10 +363,14 @@ body {
   .stop-detail {
     animation: none;
   }
-  .splash-btn,
+  .splash-btn {
+    animation: none;
+    transition: none;
+  }
   .stop-toggle,
   .progress-seg,
-  .stop-icon {
+  .stop-icon,
+  .stop-card {
     transition: none;
   }
 }

@@ -1,6 +1,6 @@
-import DayOfYay from "./DayOfYay";
-import "./DayOfYay.css";
+import DayOfGay from "./DayOfGay";
+import "./DayOfGay.css";
 
 export default function App() {
-  return <DayOfYay />;
+  return <DayOfGay />;
 }
